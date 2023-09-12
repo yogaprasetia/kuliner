@@ -1,7 +1,9 @@
 <?php
 
+use App\Providers\FortifyServiceProvider as ProvidersFortifyServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Fortify\FortifyServiceProvider;
 
 return [
 
@@ -159,6 +161,7 @@ return [
         /*
          * Package Service Providers...
          */
+        ProvidersFortifyServiceProvider::class,
 
         /*
          * Application Service Providers...
