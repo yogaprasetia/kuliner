@@ -20,3 +20,5 @@ Route::middleware('auth')->group(function (){
         return view('welcome');
     });
 });
+
+Route::get('/sub-district',\App\Http\Controllers\SubDistrictController::class);
