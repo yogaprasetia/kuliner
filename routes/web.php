@@ -21,4 +21,4 @@ Route::middleware('auth')->group(function (){
     });
 });
 
-Route::get('/sub-district',\App\Http\Controllers\SubDistrictController::class);
+Route::get('/sub-district',\App\Http\Controllers\SubDistrictController::class)->name('subdistrict.index');

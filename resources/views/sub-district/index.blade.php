@@ -5,8 +5,8 @@
                 <h1 class="card-title">Data Kecamatan</h1>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-striped">
+                <div class="">
+                    <table class="table table-striped" id="dataTable">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -28,5 +28,23 @@
 
     @push('extra-scripts')
         <script src="https://cdn.datatables.net/v/bs4/dt-1.13.6/datatables.min.js"></script>
+        <script>
+            $(function() {
+                $('#dataTable').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: '{!! route('subdistrict.index') !!}',
+                    columns: [{
+                            data: 'id',
+                            name: 'id'
+                        },
+                        {
+                            data: 'name',
+                            name: 'name'
+                        },
+                    ]
+                });
+            });
+        </script>
     @endpush
 </x-templates.default>
