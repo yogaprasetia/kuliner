@@ -1,4 +1,3 @@
-components.templates.partials.footer
 <!-- Libs JS -->
 <script src="{{ asset('dist/libs/apexcharts/dist/apexcharts.min.js?1684106062') }}" defer></script>
 <script src="{{ asset('dist/libs/jsvectormap/dist/js/jsvectormap.min.js?1684106062') }}" defer></script>
