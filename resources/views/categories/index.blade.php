@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h1 class="card-title">Semua Data</h1>
+                <a href="{{ route('category.create') }}" class="btn btn-primary">Tambah Kategori</a>
             </div>
             <div class="card-body">
                 <div class="">
@@ -34,7 +34,7 @@
                 $('#dataTable').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: '{!! route('subdistrict.index') !!}',
+                    ajax: '{!! route('category.index') !!}',
                     columns: [{
                             data: 'id',
                             name: 'id'
@@ -52,5 +52,5 @@
             });
         </script>
     @endpush
-    <x-slot name="title">Data Kecamatan</x-slot>
+    <x-slot name="title">Data Kategori</x-slot>
 </x-templates.default>
