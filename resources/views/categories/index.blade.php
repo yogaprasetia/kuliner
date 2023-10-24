@@ -12,6 +12,7 @@
                                 <th>ID</th>
                                 <th>Nama</th>
                                 <th>Slug</th>
+                                <th>Tindakan</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -46,6 +47,10 @@
                         {
                             data: 'slug',
                             name: 'slug'
+                        },
+                        {
+                            data: 'action',
+                            name: 'action'
                         }
                     ]
                 });

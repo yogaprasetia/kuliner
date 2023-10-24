@@ -17,7 +17,9 @@ class CategoryController extends Controller
         if ($request->ajax()) {
             $categories = Category::query();
 
-            return DataTables::of($categories)->toJson();
+            return DataTables::of($categories)
+            ->addColumn('action', 'categories.dt-action')
+            ->toJson();
         }
         return view('categories.index');
     }
@@ -58,17 +60,30 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Category $category)
     {
-        //
+        return view('categories.edit', [
+            'category' => $category
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $this->validate(
+            $request, [
+                'name' => 'required'
+            ]);
+
+            $category->update([
+                'name' => $request->name,
+                'slug' => Str::slug($request->name)
+
+            ]);
+
+            return redirect()->route('category.index')->with('info', 'Berhasil Update Kategori.');
     }
 
     /**
