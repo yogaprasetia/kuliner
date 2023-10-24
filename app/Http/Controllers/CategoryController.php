@@ -89,8 +89,20 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
-        //
+
+        if ($category->delete()) {
+
+            session()->flash('error', 'Data dihapus');
+
+            return response()->json([
+                'success' => true
+            ]);
+
+            return response()->json([
+                'success' => false
+            ]);
+        }
     }
 }
