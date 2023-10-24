@@ -41,9 +41,10 @@ class CategoryController extends Controller
 
         Category::create([
             'name' => $request->name,
+            'slug' => Str::slug($request->name)
         ]);
 
-        return redirect()->route('category.index');
+        return redirect()->route('category.index')->with('success', 'Berhasil Menambahkan Kategori.');
     }
 
     /**
