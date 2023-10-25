@@ -5,7 +5,7 @@
       </button>
       <h1 class="navbar-brand navbar-brand-autodark">
         <a href="https://play-lh.googleusercontent.com/DWs6r1KdO2hyrwsXq9FxpINlxVMNznsZzdZFvkBXJtYHs47h3YrdO59M9Y-3thriyWdy">
-          <img src="https://sippn.menpan.go.id/images/article/large/logo-pin-rs-dr-darsono-oke.png" width="150" height="50" alt="Tabler">
+          <img src="https://sippn.menpan.go.id/images/article/large/logo-pin-rs-dr-darsono-oke.png" width="50" height="50" alt="Tabler">
         </a>
       </h1>
       <div class="navbar-nav flex-row d-lg-none">
