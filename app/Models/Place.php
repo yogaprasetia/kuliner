@@ -9,4 +9,8 @@ class Place extends Model
 {
     use HasFactory;
     public $timestamps = false;
+
+    public function subDistrict() {
+        return $this->belongsTo(SubDistrict::class);
+    }
 }
