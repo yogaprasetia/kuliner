@@ -1,10 +1,10 @@
 <x-templates.default>
-    <x-slot name="title">Tambah Tempat Kuliner</x-slot>
+    <x-slot name="title">Perbarui Tempat Kuliner</x-slot>
 
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h1 class="card-title">Tambah Data Tempat Kuliner</h1>
+                <h1 class="card-title">Perbarui Tempat Kuliner</h1>
             </div>
             <div class="card-body">
                 <form action="{{ route('places.store') }}" method="POST" enctype="multipart/form-data">
@@ -12,7 +12,7 @@
                     <div class="form-group">
                         <label for="">Nama</label>
                         <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
-                            placeholder="Masukkan Nama Tempat Kuliner" value="{{ old('name') }}">
+                            placeholder="Masukkan Nama Tempat Kuliner" value="{{ old('name') ?? $place->name }}">
 
                         @error('name')
                             <span class="invalid-feedback">
@@ -23,9 +23,7 @@
 
                     <div class="form-group">
                         <label for="">Deskripsi</label>
-                        <textarea name="description" id="description" cols="30" rows="10"
-                            class="form-control @error('description') is-invalid @enderror" placeholder="Masukkan Deskripsi Tempat Kuliner"
-                            value="{{ old('description') }}"></textarea>
+                        <textarea name="description" id="description" cols="30" rows="10" class="form-control @error('description') is-invalid @enderror" placeholder="Masukkan Deskripsi Tempat Kuliner">{{ old('description') ?? $place->description }}</textarea>
 
                         @error('description')
                             <span class="invalid-feedback">
@@ -39,7 +37,9 @@
                         <select name="sub_district_id" id=""
                             class="form-control @error('sub_district_id') is-invalid @enderror">
                             @foreach ($subDistricts as $subDistrict)
-                                <option value="{{ $subDistrict->id }}">{{ $subDistrict->name }}</option>
+                                <option value="{{ $subDistrict->id }}" @if ($subDistrict->id == $place->sub_district_id)
+
+                               selected @endif>{{ $subDistrict->name }}</option>
                             @endforeach
                         </select>
 
@@ -53,7 +53,7 @@
                     <div class="form-group">
                         <label for="">Alamat</label>
                         <input type="text" name="address" class="form-control @error('address') is-invalid @enderror"
-                            placeholder="Masukkan Alamat Tempat Kuliner" value="{{ old('address') }}">
+                            placeholder="Masukkan Alamat Tempat Kuliner" value="{{ old('address') ?? $place->address  }}">
 
                         @error('address')
                             <span class="invalid-feedback">
@@ -65,7 +65,7 @@
                     <div class="form-group">
                         <label for="">Nomor WA</label>
                         <input type="number" name="phone" class="form-control @error('phone') is-invalid @enderror"
-                            placeholder="Masukkan Nomor WA" value="{{ old('phone') }}">
+                            placeholder="Masukkan Nomor WA" value="{{ old('phone') ?? $place->phone }}">
 
                         @error('phone')
                             <span class="invalid-feedback">
@@ -77,7 +77,7 @@
                     <div class="form-group">
                         <label for="">Foto</label>
                         <input type="file" name="image" class="form-control @error('image') is-invalid @enderror"
-                            placeholder="Masukkan Foto Tempat Kuliner" value="{{ old('image') }}">
+                            placeholder="Masukkan Foto Tempat Kuliner" value="{{ old('image') ?? $place->image }}">
 
                         @error('image')
                             <span class="invalid-feedback">
@@ -94,7 +94,7 @@
                             <div class="col-md-6 col-sm-12">
                                 <label for="">Latitude</label>
                                 <input type="text" name="latitude" id="latitude"
-                                    class="form-control @error('latitude') is-invalid @enderror" placeholder="Latitude" readonly>
+                                    class="form-control @error('latitude') is-invalid @enderror" placeholder="Latitude" value="{{ old('latitude') ?? $place->latitude }}" readonly>
 
                                 @error('latitude')
                                     <span class="invalid-feedback">
@@ -106,7 +106,7 @@
                                 <label for="">Longitude</label>
                                 <input type="text" name="longitude" id="longitude"
                                     class="form-control @error('longitude') is-invalid @enderror"
-                                    placeholder="Longitude" readonly>
+                                    placeholder="Longitude" value="{{ old('longitude') ?? $place->longitude }}" readonly>
 
                                 @error('longitude')
                                     <span class="invalid-feedback">

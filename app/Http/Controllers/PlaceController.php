@@ -87,9 +87,12 @@ class PlaceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Place $place)
     {
-        //
+        return view('places.edit', [
+            'subDistricts' => SubDistrict::get(),
+            'place' => $place
+        ]);
     }
 
     /**
