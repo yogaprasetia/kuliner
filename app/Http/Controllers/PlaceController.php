@@ -141,8 +141,19 @@ class PlaceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Place $place)
     {
-        //
+        if ($place->delete()) {
+
+            session()->flash('error', 'Data dihapus');
+
+            return response()->json([
+                'success' => true
+            ]);
+
+            return response()->json([
+                'success' => false
+            ]);
+        }
     }
 }
