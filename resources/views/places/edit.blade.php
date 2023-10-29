@@ -7,8 +7,9 @@
                 <h1 class="card-title">Perbarui Tempat Kuliner</h1>
             </div>
             <div class="card-body">
-                <form action="{{ route('places.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('places.update', $place) }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div class="form-group">
                         <label for="">Nama</label>
                         <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
@@ -77,7 +78,7 @@
                     <div class="form-group">
                         <label for="">Foto</label>
                         <input type="file" name="image" class="form-control @error('image') is-invalid @enderror"
-                            placeholder="Masukkan Foto Tempat Kuliner" value="{{ old('image') ?? $place->image }}">
+                            placeholder="Masukkan Foto Tempat Kuliner" value="{{ old('image') }}">
 
                         @error('image')
                             <span class="invalid-feedback">
@@ -139,7 +140,7 @@
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
         <script>
-            var map = L.map('map').fitWorld();
+            var map = L.map('map').setView([{{ $place->latitude }}, {{ $place->longitude }}], 16);
 
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
@@ -150,14 +151,9 @@
                 maxZoom: 16
             });
 
-            function onLocationFound(e) {
-                var radius = e.accuracy;
+            var marker = L.marker([{{ $place->latitude }}, {{ $place->longitude }}], {draggable : 'true'}).addTo(map);
 
-
-
-                var locationMarker = L.marker(e.latlng, { draggable: 'true' }).addTo(map);
-
-                locationMarker.on('dragend', function (event) {
+            marker.on('dragend', function (event) {
                     var marker = event.target
 
                     var position = marker.getLatLng();
@@ -167,11 +163,10 @@
                     $('#latitude').val(position.lat)
                     $('#longitude').val(position.lng)
                 })
-            }
+
             function onLocationError(e) {
                 alert(e.message);
             }
-            map.on('locationfound', onLocationFound);
             map.on('locationerror', onLocationError);
         </script>
     @endpush

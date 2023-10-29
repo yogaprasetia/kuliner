@@ -6,6 +6,7 @@ use App\Models\Place;
 use App\Models\SubDistrict;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Storage;
 
 class PlaceController extends Controller
 {
@@ -98,9 +99,43 @@ class PlaceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Place $place)
     {
-        //
+        $this->validate($request, [
+            'name' => ['required'],
+            'description' => ['required'],
+            'address' => ['required'],
+            'phone' => ['required','numeric'],
+            'latitude' => ['required'],
+            'longitude' => ['required'],
+
+        ]);
+
+        $image = $place->image;
+
+        if ($request->has('image')) {
+            if (Storage::exists($place->image)) {
+                Storage::delete($place->image);
+            }
+            
+            $image = $request->file('image')->store('images');
+        }
+
+        $place->update([
+            'sub_district_id' => $request->sub_district_id,
+            'name' => $request->name,
+            'description' => $request->description,
+            'address' => $request->address,
+            'phone' => $request->phone,
+            'image' => $image,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+        ]);
+
+        session()->flash('success', 'Berhasil perbarui data tempat kuliner');
+
+        return redirect()->route('places.index');
+
     }
 
     /**
