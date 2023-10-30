@@ -1,27 +1,27 @@
 <x-templates.default>
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <a href="{{ route('category.create') }}" class="btn btn-primary">Tambah Kategori</a>
-            </div>
-            <div class="card-body">
-                <div class="">
-                    <table class="table table-striped" id="dataTable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nama</th>
-                                <th>Slug</th>
-                                <th>Tindakan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+    <x-slot name="title">Data Menu dari {{ $place->name }}</x-slot>
 
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+    <div class="card">
+        <div class="card-header">
+            <a href="{{ route('menu.create', $place) }}" class="btn btn-primary">Tambah Data</a>
         </div>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-striped" id="dataTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nama</th>
+                    <th>Gambar</th>
+                    <th>Deskripsi</th>
+                    <th>Harga</th>
+                    <th>Tindakan</th>
+                </tr>
+            </thead>
+            <tbody>
+        </tbody>
+        </table>
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -43,7 +43,6 @@
             </div>
         </div>
     </div>
-
     @push('extra-styles')
         <link href="https://cdn.datatables.net/v/bs4/dt-1.13.6/datatables.min.css" rel="stylesheet">
     @endpush
@@ -55,7 +54,7 @@
                 $('#dataTable').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: '{!! route('category.index') !!}',
+                    ajax: '{!! route('menu.index', request()->segment(2)) !!}',
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex', orderable: false
@@ -65,8 +64,16 @@
                             name: 'name'
                         },
                         {
-                            data: 'slug',
-                            name: 'slug'
+                            data: 'image',
+                            name: 'image'
+                        },
+                        {
+                            data: 'description',
+                            name: 'description'
+                        },
+                        {
+                            data: 'price',
+                            name: 'price'
                         },
                         {
                             data: 'action',
@@ -74,9 +81,8 @@
                         }
                     ]
                 });
-            });
 
-            $('#dataTable').on('click', 'a#delete', function(e) {
+                $('#dataTable').on('click', 'a#delete', function(e) {
                 var id = $(this).data('id')
                 e.preventDefault()
                 $('#ConfirmDelete').attr('data-id', id)
@@ -88,7 +94,7 @@
                 var id = $(this).data('id')
                 $.ajax({
                     type: 'DELETE',
-                    url: 'category/' + id,
+                    url: 'places/' + id + '/menu',
                     data: {
                         '_token': "{{ csrf_token() }}"
                     },
@@ -101,7 +107,7 @@
                     },
                 })
             })
+            });
         </script>
     @endpush
-    <x-slot name="title">Data Kategori</x-slot>
 </x-templates.default>

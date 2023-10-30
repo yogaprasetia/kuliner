@@ -19,9 +19,12 @@ class PlaceController extends Controller
             $places = Place::with('subDistrict');
 
             return DataTables::of($places)
+            ->addIndexColumn()
             ->addColumn('subDistrictName', function (Place $place) {
                 return $place->subDistrict->name;
             })
+            ->addColumn('place-menu', 'places.place-link')
+            ->rawColumns(['place-menu'])
             ->addColumn('action', 'places.dt-action')
             ->toJson();
 
@@ -117,7 +120,7 @@ class PlaceController extends Controller
             if (Storage::exists($place->image)) {
                 Storage::delete($place->image);
             }
-            
+
             $image = $request->file('image')->store('images');
         }
 

@@ -58,12 +58,12 @@
                     serverSide: true,
                     ajax: '{!! route('places.index') !!}',
                     columns: [{
-                            data: 'id',
-                            name: 'id'
+                            data: 'DT_RowIndex',
+                            name: 'DT_RowIndex', orderable: false
                         },
                         {
-                            data: 'name',
-                            name: 'name'
+                            data: 'place-menu',
+                            name: 'place-menu'
                         },
                         {
                             data: 'subDistrictName',

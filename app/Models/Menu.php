@@ -9,4 +9,8 @@ class Menu extends Model
 {
     use HasFactory;
     public $timestamps = false;
+
+    public function place() {
+        return $this->belongsTo(Place::class);
+    }
 }
