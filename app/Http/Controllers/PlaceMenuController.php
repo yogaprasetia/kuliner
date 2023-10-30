@@ -137,8 +137,24 @@ class PlaceMenuController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Place $place, Menu $menu)
     {
-        //
+        if ($menu) {
+            if (!is_null($menu->image)) {
+                Storage::delete($menu->image);
+            }
+
+            $menu->delete();
+            
+            session()->flash('error', 'Data dihapus');
+
+            return response()->json([
+                'success' => true
+            ]);
+
+            return response()->json([
+                'success' => false
+            ]);
+        }
     }
 }

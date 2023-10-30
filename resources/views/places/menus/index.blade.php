@@ -37,7 +37,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <button type="button" class="btn btn-danger" data-id="" id="ConfirmDelete">Hapus</button>
+                        <button type="button" class="btn btn-danger" data-id-place="" data-id-menu="" id="ConfirmDelete">Hapus</button>
                     </div>
                 </div>
             </div>
@@ -83,18 +83,23 @@
                 });
 
                 $('#dataTable').on('click', 'a#delete', function(e) {
-                var id = $(this).data('id')
                 e.preventDefault()
-                $('#ConfirmDelete').attr('data-id', id)
+                var idPlace = $(this).data('id-place')
+                var idMenu = $(this).data('id-menu')
+
+                $('#ConfirmDelete').attr('data-id-place', idPlace)
+                $('#ConfirmDelete').attr('data-id-menu', idMenu)
                 $('#deleteModal').modal('show')
             });
 
             $('#ConfirmDelete').click(function(e) {
                 e.preventDefault()
-                var id = $(this).data('id')
+                var idPlace = $(this).data('id-place')
+                var idMenu = $(this).data('id-menu')
+
                 $.ajax({
                     type: 'DELETE',
-                    url: 'places/' + id + '/menu',
+                    url: '/places/' + idPlace + '/menu/' + idMenu,
                     data: {
                         '_token': "{{ csrf_token() }}"
                     },
