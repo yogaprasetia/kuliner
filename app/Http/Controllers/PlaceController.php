@@ -24,7 +24,7 @@ class PlaceController extends Controller
                 return $place->subDistrict->name;
             })
             ->addColumn('place-menu', 'places.place-link')
-            ->rawColumns(['place-menu'])
+            ->rawColumns(['place-menu','action'])
             ->addColumn('action', 'places.dt-action')
             ->toJson();
 
