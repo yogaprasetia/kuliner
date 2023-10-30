@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
-
+use Illuminate\Support\Str;
 use App\Models\Place;
 
 class PlaceMenuController extends Controller
@@ -20,7 +20,11 @@ class PlaceMenuController extends Controller
 
             return DataTables::of($menus)
             ->addIndexColumn()
+            ->editColumn('image', function ($menu) {
+                return '<img src="'. $menu->image_url .'">';
+            })
             ->addColumn('action', 'places.menus.dt-action')
+            ->rawColumns(['image','action'])
             ->toJson();
         }
         return view('places.menus.index', [
@@ -34,6 +38,7 @@ class PlaceMenuController extends Controller
     public function create(Place $place)
     {
         return view('places.menus.create', [
+            'place' => $place,
             'categories' => Category::get(),
         ]);
     }
@@ -53,16 +58,20 @@ class PlaceMenuController extends Controller
 
         $image = null;
 
-        if ($request->has('image')) {
+        if ($request->hasFile('image')) {
             $image = $request->file('image')->store('images/menus');
         }
 
         $place->menus()->create([
             'name' => $request->name,
+            'slug' => Str::slug($request->name),
             'description' => $request->description,
             'category_id' => $request->category_id,
+            'image' => $image,
             'price' => $request->price,
         ]);
+
+        return redirect()->route('menu.index', $place);
     }
 
     /**

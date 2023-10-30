@@ -7,7 +7,7 @@
                 <h1 class="card-title">Tambah Data Tempat Kuliner</h1>
             </div>
             <div class="card-body">
-                <form action="{{ route('places.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('menu.store', $place) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label for="">Nama</label>
