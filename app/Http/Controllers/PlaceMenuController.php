@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Str;
 use App\Models\Place;
+use App\Models\Menu;
+use Illuminate\Support\Facades\Storage;
 
 class PlaceMenuController extends Controller
 {
@@ -71,6 +73,8 @@ class PlaceMenuController extends Controller
             'price' => $request->price,
         ]);
 
+        session()->flash('success', 'Berhasil tambah data');
+
         return redirect()->route('menu.index', $place);
     }
 
@@ -85,17 +89,49 @@ class PlaceMenuController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Place $place, Menu $menu)
     {
-        //
+        return view('places.menus.edit', [
+            'place' => $place,
+            'menu' => $menu,
+            'categories' => Category::all(),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Place $place, Menu $menu)
     {
-        //
+        $this->validate($request, [
+            'name' => ['required'],
+            'description' => ['required'],
+            'category_id' => ['required'],
+            'price' => ['required','numeric'],
+
+        ]);
+
+        $image = $menu->image;
+
+        if ($request->hasFile('image')) {
+           if (!is_null($menu->image)) {
+            Storage::delete($menu->image);
+           }
+           $image = $request->file('image')->store('images/menus');
+        }
+
+        $menu->update([
+            'name' => $request->name ?? $menu->name,
+            'slug' => $request->name ? Str::slug($request->name) : $menu->slug,
+            'description' => $request->description ?? $menu->description,
+            'category_id' => $request->category_id ?? $menu->category_id,
+            'image' => $image,
+            'price' => $request->price ?? $menu->price,
+        ]);
+
+        session()->flash('success', 'Berhasil memperbarui data');
+
+        return redirect()->route('menu.index', $place);
     }
 
     /**
