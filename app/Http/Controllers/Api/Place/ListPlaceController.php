@@ -14,7 +14,17 @@ class ListPlaceController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $places = Place::paginate(5);
-        return PlaceResource::collection($places);
+        $places = Place::query();
+
+        if ($request->has('keyword')) {
+            $places->where('name','like','%' . $request->keyword . '%')
+            ->orWhere('description','like','%' . $request->keyword . '%')
+            ->orWhere('address','like','%' . $request->keyword . '%')
+            ->orWhereHas('subDistrict', function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->keyword . '%');
+            });
+        }
+
+        return PlaceResource::collection($places->paginate(5));
     }
 }
