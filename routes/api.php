@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\SubDistrict\ListSubDistrictController;
 use App\Http\Controllers\Api\SubDistrict\ShowSubDistrictController;
+use App\Http\Controllers\Api\User\ListFavouritePlaceController;
+use App\Http\Controllers\Api\User\StoreFavouritePlaceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +19,5 @@ Route::get('/place/{place:id}/menu/{menu:id}', \App\Http\Controllers\Api\Menu\Sh
 Route::get('/sub-district', ListSubDistrictController::class);
 Route::get('/sub-district/{subDistrict}', ShowSubDistrictController::class);
 Route::get('/sub-district/{subDistrict}/place', \App\Http\Controllers\Api\SubDistrict\ListPlaceBySubDistrictController::class);
+Route::post('/user/place/{place}/favourite', StoreFavouritePlaceController::class)->middleware('auth:sanctum');
+Route::get('/user/place', ListFavouritePlaceController::class)->middleware('auth:sanctum');
