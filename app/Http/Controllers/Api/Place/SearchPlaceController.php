@@ -14,12 +14,7 @@ class SearchPlaceController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $places = Place::where('name','like','%' . $request->keyword . '%')
-        ->orWhere('description','like','%' . $request->keyword . '%')
-        ->orWhere('address','like','%' . $request->keyword . '%')
-        ->orWhereHas('subDistrict', function ($query) use ($request) {
-            $query->where('name', 'like', '%' . $request->keyword . '%');
-        })
+        $places = Place::searchPlace($request->keyword)
         ->paginate(5);
         return PlaceResource::collection($places);
     }

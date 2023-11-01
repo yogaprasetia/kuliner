@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class PlaceResource extends JsonResource
 {
@@ -24,6 +25,8 @@ class PlaceResource extends JsonResource
           'latitude' => $this->latitude,
           'longitude' => $this->longitude,
           'sub_district' => $this->subDistrict,
+          'is_favourited' => Auth::guard('sanctum')->check() ? Auth::guard('sanctum')->user()->places()->pluck('places.id')
+          ->contains($this->id) : false,
         ];
     }
 }

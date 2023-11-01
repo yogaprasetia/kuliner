@@ -17,12 +17,7 @@ class ListPlaceController extends Controller
         $places = Place::query();
 
         if ($request->has('keyword')) {
-            $places->where('name','like','%' . $request->keyword . '%')
-            ->orWhere('description','like','%' . $request->keyword . '%')
-            ->orWhere('address','like','%' . $request->keyword . '%')
-            ->orWhereHas('subDistrict', function ($query) use ($request) {
-                $query->where('name', 'like', '%' . $request->keyword . '%');
-            });
+            $places->searchPlace($request->keyword);
         }
 
         return PlaceResource::collection($places->paginate(5));
